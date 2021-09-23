@@ -30,9 +30,9 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 #             'pe': 'V',
 #             'pa': 'B'
 #             }
-gestures = {'A_': 'A', 'B_': 'B', 'C_': 'C', 'D_': 'D', 'E_': 'E', 'F_': 'F', 'G_': 'G', 'H_': 'H', 'I_': 'I',
-            'J_': 'J', 'K_': 'K', 'L_': 'L', 'M_': 'M', 'N_': 'N', 'O_': 'O', 'P_': 'P', 'Q_': 'Q', 'R_': 'R',
-            'S_': 'S', 'T_': 'T', 'U_': 'U', 'V_': 'V', 'W_': 'W', 'X_': 'X', 'Y_ ': 'Y', 'Z_': 'Z'}
+gestures = {'AI': 'A', 'BI': 'B', 'CI': 'C', 'DI': 'D', 'EI': 'E', 'FI': 'F', 'GI': 'G', 'HI': 'H', 'II': 'I',
+            'JI': 'J', 'KI': 'K', 'LI': 'L', 'MI': 'M', 'NI': 'N', 'OI': 'O', 'PI': 'P', 'QI': 'Q', 'RI': 'R',
+            'SI': 'S', 'TI': 'T', 'UI': 'U', 'VI': 'V', 'WI': 'W', 'XI': 'X', 'YI': 'Y', 'ZI': 'Z'}
 
 gestures_map = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10,
                 'L': 11, 'M': 12, 'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18, 'T': 19, 'U': 20,
