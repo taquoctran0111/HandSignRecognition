@@ -2,19 +2,20 @@ import os
 import warnings
 import cv2
 import keras
+import tensorflow
 import matplotlib.pyplot as plt
 import matplotlib.style as style
 import numpy as np
 import pandas as pd
 from PIL import Image
-from keras import models, layers, optimizers
-from keras.applications import VGG16
+from tensorflow.keras import models, layers, optimizers
+from keras.applications.vgg16 import VGG16
 from keras.callbacks import EarlyStopping, ModelCheckpoint
 from keras.layers import Dense, Dropout, Flatten
 from keras.models import Model
 from keras.preprocessing import image as image_utils
 from keras.preprocessing.image import ImageDataGenerator
-from keras.utils import to_categorical
+from tensorflow.keras.utils import to_categorical
 from sklearn.metrics import classification_report, confusion_matrix
 from sklearn.model_selection import train_test_split
 from PIL import ImageFile
@@ -23,26 +24,24 @@ ImageFile.LOAD_TRUNCATED_IMAGES = True
 
 # Dinh nghia cac bien
 
-gestures = {'L_': 'L',
-           'fi': 'E',
-           'ok': 'F',
-           'pe': 'V',
-           'pa': 'B'
-            }
+# gestures = {'L_': 'L',
+#             'fi': 'E',
+#             'ok': 'F',
+#             'pe': 'V',
+#             'pa': 'B'
+#             }
+gestures = {'A_': 'A', 'B_': 'B', 'C_': 'C', 'D_': 'D', 'E_': 'E', 'F_': 'F', 'G_': 'G', 'H_': 'H', 'I_': 'I',
+            'J_': 'J', 'K_': 'K', 'L_': 'L', 'M_': 'M', 'N_': 'N', 'O_': 'O', 'P_': 'P', 'Q_': 'Q', 'R_': 'R',
+            'S_': 'S', 'T_': 'T', 'U_': 'U', 'V_': 'V', 'W_': 'W', 'X_': 'X', 'Y_ ': 'Y', 'Z_': 'Z'}
 
-gestures_map = {'E': 0,
-                'L': 1,
-                'F': 2,
-                'V': 3,
-                'B': 4
-                }
+gestures_map = {'A': 0, 'B': 1, 'C': 2, 'D': 3, 'E': 4, 'F': 5, 'G': 6, 'H': 7, 'I': 8, 'J': 9, 'K': 10,
+                'L': 11, 'M': 12, 'N': 13, 'O': 14, 'P': 15, 'Q': 16, 'R': 17, 'S': 18, 'T': 19, 'U': 20,
+                'V': 21, 'W': 22, 'X': 23, 'Y': 24, 'Z': 25}
 
 
-gesture_names = {0: 'E',
-                 1: 'L',
-                 2: 'F',
-                 3: 'V',
-                 4: 'B'}
+gesture_names = {0: 'A', 1: 'B', 2: 'C', 3: 'D', 4: 'E', 5: 'F', 6: 'G', 7: 'H', 8: 'I', 9: 'J', 10: 'K', 11: 'L',
+                 12: 'M', 13: 'N', 14: 'O', 15: 'P', 16: 'Q', 17: 'R', 18: 'S', 19: 'T', 20: 'U', 21: 'V', 22: 'W',
+                 23: 'X', 24: 'Y', 25: 'Z'}
 
 
 image_path = 'data'
@@ -59,8 +58,10 @@ def process_image(path):
     return img
 
 # Xu ly du lieu dau vao
+
+
 def process_data(X_data, y_data):
-    X_data = np.array(X_data, dtype = 'float32')
+    X_data = np.array(X_data, dtype='float32')
     if rgb:
         pass
     else:
@@ -71,6 +72,8 @@ def process_data(X_data, y_data):
     return X_data, y_data
 
 # Ham duuyet thu muc anh dung de train
+
+
 def walk_file_tree(image_path):
     X_data = []
     y_data = []
@@ -91,13 +94,12 @@ def walk_file_tree(image_path):
     return X_data, y_data
 
 
-
-
 # Load du lieu vao X va Y
 X_data, y_data = walk_file_tree(image_path)
 
 # Phan chia du lieu train va test theo ty le 80/20
-X_train, X_test, y_train, y_test = train_test_split(X_data, y_data, test_size = 0.2, random_state=12, stratify=y_data)
+X_train, X_test, y_train, y_test = train_test_split(
+    X_data, y_data, test_size=0.2, random_state=12, stratify=y_data)
 
 # Dat cac checkpoint de luu lai model tot nhat
 model_checkpoint = ModelCheckpoint(filepath=models_path, save_best_only=True)
@@ -109,7 +111,8 @@ early_stopping = EarlyStopping(monitor='val_acc',
                                restore_best_weights=True)
 
 # Khoi tao model
-model1 = VGG16(weights='imagenet', include_top=False, input_shape=(imageSize, imageSize, 3))
+model1 = VGG16(weights='imagenet', include_top=False,
+               input_shape=(imageSize, imageSize, 3))
 optimizer1 = optimizers.Adam()
 base_model = model1
 
@@ -130,11 +133,10 @@ model = Model(inputs=base_model.input, outputs=predictions)
 for layer in base_model.layers:
     layer.trainable = False
 
-model.compile(optimizer='Adam', loss='categorical_crossentropy', metrics=['accuracy'])
-model.fit(X_train, y_train, epochs=50, batch_size=64, validation_data=(X_test, y_test), verbose=1,
+model.compile(optimizer='Adam', loss='categorical_crossentropy',
+              metrics=['accuracy'])
+model.fit(X_train, y_train, epochs=50, batch_size=3, validation_data=(X_test, y_test), verbose=1,
           callbacks=[early_stopping, model_checkpoint])
 
 # Luu model da train ra file
 model.save('models/mymodel.h5')
-
-
